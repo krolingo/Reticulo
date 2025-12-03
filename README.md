@@ -2,9 +2,9 @@
 
 This Bastille template provisions a FreeBSD jail with:
 
-- Reticulum (RNS) – networking stack and rnsd daemon
-- NomadNet – terminal-based messaging/board system over Reticulum
-- Reticulum MeshChat – web UI for chat over Reticulum, built with Node/Vite
+- Reticulum (RNS) - networking stack and rnsd daemon
+- NomadNet - terminal-based messaging/board system over Reticulum
+- Reticulum MeshChat - web UI for chat over Reticulum, built with Node/Vite
 
 Everything is installed and wired up automatically inside the jail, including a Python virtualenv for MeshChat and an rc.d script to run it as a service.
 
@@ -26,8 +26,8 @@ When applied to a jail, the template:
      - Installs NomadNet via pkg (if available) or pip
      - Clones MeshChat into /opt/reticulum-meshchat
      - Creates a Python virtualenv in /opt/reticulum-meshchat/venv
-     - Installs MeshChat’s Python requirements into that venv
-     - Generates a default \~/.reticulum/config if one doesn’t exist
+     - Installs MeshChat's Python requirements into that venv
+     - Generates a default \~/.reticulum/config if one doesn't exist
 3. Installs the MeshChat rc.d script:
    - Copies root/usr/local/etc/rc.d/meshchat → /usr/local/etc/rc.d/meshchat
    - Marks it executable
@@ -50,7 +50,7 @@ When applied to a jail, the template:
    - host:1022  → jail:22 (SSH)
    - host:8000 → jail:8000 (MeshChat web UI)
 
-> Note: Port forwarding is handled by Bastille’s RDR directives in the Bastillefile and assumes you are using Bastille’s NAT mode / pf integration.
+> Note: Port forwarding is handled by Bastille's RDR directives in the Bastillefile and assumes you are using Bastille's NAT mode / pf integration.
 
 ---
 
@@ -158,7 +158,7 @@ service meshchat restart
 ## Notes
 
 - Avoids Rust build by using pkg-installed pyXY-cryptography
-- MeshChat’s venv uses system site-packages to reuse jail Python modules
+- MeshChat's venv uses system site-packages to reuse jail Python modules
 
 ---
 
