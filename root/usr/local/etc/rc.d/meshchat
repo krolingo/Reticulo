@@ -1,0 +1,59 @@
+#!/bin/sh
+#
+# PROVIDE: meshchat
+# REQUIRE: LOGIN
+# KEYWORD: shutdown
+
+. /etc/rc.subr
+
+name="meshchat"
+rcvar=meshchat_enable
+
+load_rc_config $name
+
+: ${meshchat_enable:="NO"}
+: ${meshchat_user:="root"}
+: ${meshchat_dir:="/opt/reticulum-meshchat"}
+: ${meshchat_venv:="${meshchat_dir}/venv"}
+: ${meshchat_flags:="--host 0.0.0.0 --port 8000"}
+
+pidfile="/var/run/${name}.pid"
+
+start_cmd="${name}_start"
+stop_cmd="${name}_stop"
+status_cmd="${name}_status"
+
+meshchat_start()
+{
+    if [ ! -x "${meshchat_venv}/bin/python" ]; then
+        echo "meshchat: ${meshchat_venv}/bin/python not found; is MeshChat installed?"
+        return 1
+    fi
+
+    echo "Starting MeshChat..."
+    /usr/sbin/daemon -f -p "${pidfile}" -u "${meshchat_user}" \
+        /bin/sh -c "cd '${meshchat_dir}' && exec '${meshchat_venv}/bin/python' meshchat.py ${meshchat_flags}"
+}
+
+meshchat_stop()
+{
+    if [ -f "${pidfile}" ]; then
+        kill "$(cat "${pidfile}")" 2>/dev/null || true
+        rm -f "${pidfile}"
+        echo "MeshChat stopped."
+    else
+        echo "MeshChat not running (no pidfile)."
+    fi
+}
+
+meshchat_status()
+{
+    if [ -f "${pidfile}" ] && kill -0 "$(cat "${pidfile}")" 2>/dev/null; then
+        echo "MeshChat is running as PID $(cat "${pidfile}")"
+        return 0
+    fi
+    echo "MeshChat is not running."
+    return 1
+}
+
+run_rc_command "$1"

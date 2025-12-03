@@ -1,0 +1,36 @@
+# ============================================
+#  Reticulo (RNS + NomadNet + MeshChat) Template
+# ============================================
+
+# Base packages: Python, pip, git, Node, npm, SQLite bindings
+PKG python311 py311-pip git node npm py311-sqlite3
+
+# Copy installer script and rc.d file into proper places in the jail
+CP root/install_rns_nomadnet_meshchat.sh /root/install_rns_nomadnet_meshchat.sh
+CP root/usr/local/etc/rc.d/meshchat /usr/local/etc/rc.d/meshchat
+
+# Make sure scripts are executable
+CMD chmod +x /root/install_rns_nomadnet_meshchat.sh
+CMD chmod 755 /usr/local/etc/rc.d/meshchat
+
+# Run the installer (RNS, NomadNet, MeshChat venv + Python deps)
+CMD /root/install_rns_nomadnet_meshchat.sh
+
+# Build MeshChat frontend (Node/Vite -> creates /opt/reticulum-meshchat/public/)
+CMD sh -c 'cd /opt/reticulum-meshchat && npm install --omit=dev && npm run build-frontend'
+
+# Enable MeshChat in rc.conf
+CMD sysrc meshchat_enable=YES
+
+#Enable Reticulum
+CMD sysrc reticulum_enable=YES
+
+# ==========================
+# Port forwards (host → jail)
+# ==========================
+
+# SSH: host:1022 → jail:22
+RDR tcp 1022 22
+
+# MeshChat Web UI: host:8000 → jail:8000
+RDR tcp 8000 8000
