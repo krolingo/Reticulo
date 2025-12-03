@@ -1,13 +1,12 @@
-# Reticulo – Bastille Template for Reticulum, NomadNet & MeshChat
+# Reticulo a Bastille Template for Reticulum, NomadNet & MeshChat
 
 This Bastille template provisions a FreeBSD jail with:
 
-- **Reticulum (RNS)** – networking stack and `rnsd` daemon  
-- **NomadNet** – terminal-based messaging/board system over Reticulum  
-- **Reticulum MeshChat** – web UI for chat over Reticulum, built with Node/Vite
+- Reticulum (RNS) – networking stack and rnsd daemon
+- NomadNet – terminal-based messaging/board system over Reticulum
+- Reticulum MeshChat – web UI for chat over Reticulum, built with Node/Vite
 
-Everything is installed and wired up automatically inside the jail, including a
-Python virtualenv for MeshChat and an rc.d script to run it as a service.
+Everything is installed and wired up automatically inside the jail, including a Python virtualenv for MeshChat and an rc.d script to run it as a service.
 
 ---
 
@@ -17,26 +16,21 @@ When applied to a jail, the template:
 
 1. Installs base packages:
 
-   ```text
+   ```bash
    python311 py311-pip git node npm py311-sqlite3
    ```
-
 2. Copies in and runs the installer script:
-
-   - `root/install_rns_nomadnet_meshchat.sh`  
-     - Installs **Reticulum (RNS)** via `pip`
-     - Ensures a matching `pyXY-cryptography` package is installed via `pkg`
-     - Installs **NomadNet** via `pkg` (if available) or `pip`
-     - Clones **MeshChat** into `/opt/reticulum-meshchat`
-     - Creates a Python virtualenv in `/opt/reticulum-meshchat/venv`
+   - root/install_rns_nomadnet_meshchat.sh
+     - Installs Reticulum (RNS) via pip
+     - Ensures a matching pyXY-cryptography package is installed via pkg
+     - Installs NomadNet via pkg (if available) or pip
+     - Clones MeshChat into /opt/reticulum-meshchat
+     - Creates a Python virtualenv in /opt/reticulum-meshchat/venv
      - Installs MeshChat’s Python requirements into that venv
-     - Generates a default `~/.reticulum/config` if one doesn’t exist
-
+     - Generates a default \~/.reticulum/config if one doesn’t exist
 3. Installs the MeshChat rc.d script:
-
-   - Copies `root/usr/local/etc/rc.d/meshchat` → `/usr/local/etc/rc.d/meshchat`
+   - Copies root/usr/local/etc/rc.d/meshchat → /usr/local/etc/rc.d/meshchat
    - Marks it executable
-
 4. Builds the MeshChat frontend:
 
    ```sh
@@ -45,28 +39,24 @@ When applied to a jail, the template:
    npm run build-frontend
    ```
 
-   This creates the production static files under `public/`.
+   This creates the production static files under public/.
+5. Enables services in rc.conf:
 
-5. Enables services in `rc.conf`:
-
-   ```sh
+   ```bas
    sysrc meshchat_enable=YES
    sysrc reticulum_enable=YES
    ```
-
 6. Adds port forwards from the host into the jail:
+   - host:1022  → jail:22 (SSH)
+   - host:8000 → jail:8000 (MeshChat web UI)
 
-   - `host:1022  → jail:22`      (SSH)
-   - `host:8000 → jail:8000`    (MeshChat web UI)
-
-> **Note:** Port forwarding is handled by Bastille’s `RDR` directives in the
-> Bastillefile and assumes you are using Bastille’s NAT mode / pf integration.
+> Note: Port forwarding is handled by Bastille’s RDR directives in the Bastillefile and assumes you are using Bastille’s NAT mode / pf integration.
 
 ---
 
 ## Repository layout
 
-```text
+```bash
 .
 ├── Bastillefile # Bastille template definition
 ├── README.md
@@ -77,19 +67,18 @@ When applied to a jail, the template:
             └── etc
                 └── rc.d
                     └── meshchat # rc.d script for MeshChat
-
 ```
 
 ---
 
 ## Requirements
 
-- **Host OS:** FreeBSD with Bastille installed  
-- **Jail:** A running jail created via Bastille (e.g. 14.3-RELEASE)  
+- Host OS: FreeBSD with Bastille installed
+- Jail: A running jail created via Bastille (e.g. 14.3-RELEASE)
 - Network access from the jail to:
-  - `pkg` repositories
-  - GitHub (for MeshChat clone)  
-- PF / NAT configured so Bastille can apply its `RDR` rules
+  - pkg repositories
+  - GitHub (for MeshChat clone)
+- PF / NAT configured so Bastille can apply its RDR rules
 
 ---
 
@@ -126,7 +115,7 @@ service meshchat start
 
 ## Accessing MeshChat
 
-```
+```text
 http://<host-ip>:8000/
 ```
 
@@ -140,7 +129,7 @@ ssh -p 1022 root@<host-ip>
 
 ## Reticulum configuration
 
-Default config path: `~/.reticulum/config`
+Default config path: \~/.reticulum/config
 
 Edit interfaces as needed and restart:
 
@@ -168,11 +157,11 @@ service meshchat restart
 
 ## Notes
 
-- Avoids Rust build by using pkg-installed `pyXY-cryptography`
+- Avoids Rust build by using pkg-installed pyXY-cryptography
 - MeshChat’s venv uses system site-packages to reuse jail Python modules
 
 ---
 
 ## License
 
-Add your preferred license here.
+Use it as you like. 
