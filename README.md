@@ -94,13 +94,13 @@ bastille start reticulo
 ### 2. Apply the template
 
 ```sh
-bastille template reticulo https://git.eldapper.com/matuzalem/Reticulo.git
+bastille template reticulo https://github.com/krolingo/Reticulo.git
 ```
 
 Or via SSH:
 
 ```sh
-bastille template reticulo git@giteavnet.eldapper.com:matuzalem/Reticulo.git
+bastille template reticulo git@github.com:krolingo/Reticulo.git
 ```
 
 ### 3. Start the jail services
