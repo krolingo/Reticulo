@@ -156,7 +156,7 @@ install_nomadnet() {
 ### Install MeshChat ###########################################################
 
 install_meshchat() {
-  # We won’t check for a command, because MeshChat is usually run from a dir.
+  # We won't check for a command, because MeshChat is usually run from a dir.
   # Instead, we install into /opt/reticulum-meshchat (or similar).
 
   MESHCHAT_DIR="/opt/reticulum-meshchat"
