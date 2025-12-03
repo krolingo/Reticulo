@@ -67,12 +67,17 @@ When applied to a jail, the template:
 ## Repository layout
 
 ```text
-root/
-  install_rns_nomadnet_meshchat.sh   # Main installer
-  usr/local/etc/rc.d/meshchat        # rc.d script for MeshChat
+.
+├── Bastillefile # Bastille template definition
+├── README.md
+└── root
+    ├── install_rns_nomadnet_meshchat.sh # Main installer
+    └── usr
+        └── local
+            └── etc
+                └── rc.d
+                    └── meshchat # rc.d script for MeshChat
 
-Bastillefile                         # Bastille template definition
-Bastillefile-bk                      # Backup / variant (if present)
 ```
 
 ---
