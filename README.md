@@ -8,7 +8,6 @@ This Bastille template provisions a FreeBSD jail with:
 
 Everything is installed and wired up automatically inside the jail, including a Python virtualenv for MeshChat and an rc.d script to run it as a service.
 
----
 
 ## What this template does
 
@@ -52,7 +51,6 @@ When applied to a jail, the template:
 
 > Note: Port forwarding is handled by Bastille's RDR directives in the Bastillefile and assumes you are using Bastille's NAT mode / pf integration.
 
----
 
 ## Repository layout
 
@@ -69,7 +67,6 @@ When applied to a jail, the template:
                     └── meshchat # rc.d script for MeshChat
 ```
 
----
 
 ## Requirements
 
@@ -80,7 +77,6 @@ When applied to a jail, the template:
   - GitHub (for MeshChat clone)
 - PF / NAT configured so Bastille can apply its RDR rules
 
----
 
 ## Quick start
 
@@ -111,7 +107,6 @@ service reticulum start
 service meshchat start
 ```
 
----
 
 ## Accessing MeshChat
 
@@ -125,7 +120,6 @@ SSH into the jail:
 ssh -p 1022 root@<host-ip>
 ```
 
----
 
 ## Reticulum configuration
 
@@ -137,7 +131,6 @@ Edit interfaces as needed and restart:
 service reticulum restart
 ```
 
----
 
 ## Updating MeshChat
 
@@ -153,14 +146,12 @@ deactivate
 service meshchat restart
 ```
 
----
 
 ## Notes
 
 - Avoids Rust build by using pkg-installed pyXY-cryptography
 - MeshChat's venv uses system site-packages to reuse jail Python modules
 
----
 
 ## License
 
